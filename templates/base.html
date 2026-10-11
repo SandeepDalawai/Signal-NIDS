@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A lightweight network intrusion detection and reporting mini project">
+  <title>{% block title %}Signal / NIDS{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+  <div class="topline"><span class="topline-mark"></span> SIGNAL / NETWORK OBSERVATORY <span class="topline-right">LOCAL ANALYSIS TOOL <span class="mono">v1.0</span></span></div>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('overview') }}" aria-label="Signal NIDS overview"><span class="brand-symbol"><i></i><i></i><i></i></span><span><strong>signal<span class="brand-slash">/</span></strong><small>NETWORK INTRUSION DETECTION</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="{% if request.endpoint == 'overview' %}active{% endif %}" href="{{ url_for('overview') }}"><span>01</span> Overview</a>
+      <a class="{% if request.endpoint in ['analyze_page','analyze_sample','analyze_upload'] %}active{% endif %}" href="{{ url_for('analyze_page') }}"><span>02</span> Analyze</a>
+      <a class="{% if request.endpoint == 'results' %}active{% endif %}" href="{{ url_for('results') }}"><span>03</span> Findings</a>
+      <a class="{% if request.endpoint in ['reports','export_csv','export_pdf'] %}active{% endif %}" href="{{ url_for('reports') }}"><span>04</span> Reports</a>
+    </nav>
+    <div class="header-status"><span class="status-dot"></span> ENGINE READY</div>
+  </header>
+  <main class="main-shell">
+    {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}" role="status">{{ message }}<button type="button" class="flash-close" aria-label="Dismiss message">×</button></div>{% endfor %}</div>{% endif %}{% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer"><div><span class="footer-mark">S/</span> SIGNAL <span class="footer-sep">—</span> LOCAL NETWORK ANALYSIS</div><p>Findings are rule-based indicators, not proof of malicious intent.</p><span class="mono">BUILT FOR DEFENSIVE USE</span></footer>
+</body></html>
